@@ -10,7 +10,13 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'QRScanner',
       initialRoute: 'home',
-      routes: routes(context)
+      routes: routes(context),
+      theme: ThemeData(
+        primaryColor: Colors.deepOrangeAccent,
+        floatingActionButtonTheme: FloatingActionButtonThemeData (
+          backgroundColor: Colors.deepOrangeAccent
+        )
+      )
     );
   }
 }
