@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:qr_scanner/bloc/scan_bloc.dart';
+import 'package:qr_scanner/models/scan_model.dart';
 import 'package:qr_scanner/pages/directions.dart';
 import 'package:qr_scanner/pages/maps.dart';
 import 'package:barcode_scan/barcode_scan.dart';
-import 'package:qr_scanner/providers/db.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -10,6 +11,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  final scansBloc = ScansBloc();
   int currIndex = 0;
 
   @override
@@ -18,7 +20,11 @@ class _HomeState extends State<Home> {
         appBar: AppBar(
           title: Text('QRScanner'),
           actions: <Widget>[
-            IconButton(icon: Icon(Icons.delete_forever), onPressed: () {})
+            IconButton(
+                icon: Icon(Icons.delete_forever),
+                onPressed: () {
+                  scansBloc.deleteAll();
+                })
           ],
         ),
         body: _callPage(currIndex),
@@ -72,7 +78,7 @@ class _HomeState extends State<Home> {
 
       if (result.rawContent != null) {
         final scan = ScanModel(valor: result.rawContent);
-        DB.dbSet.newScanData(scan);
+        scansBloc.addScan(scan);
       }
     } catch (e) {
       print(e);
