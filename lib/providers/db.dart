@@ -1,6 +1,7 @@
 //Database managment
 import 'dart:io';
 import 'package:qr_scanner/models/scan_model.dart';
+export 'package:qr_scanner/models/scan_model.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
@@ -60,7 +61,7 @@ class DB {
     return res.isNotEmpty ? ScanModel.fromJson(res.first) : null;
   }
 
-  Future<List<ScanModel>> getAll(int id) async {
+  Future<List<ScanModel>> getAll() async {
     final db = await database;
     final res = await db.query('Scans');
 
@@ -100,7 +101,7 @@ class DB {
   }
 
   // Delete all
-  Future<int> deleteAllScan(int id) async {
+  Future<int> deleteAllScan() async {
     final db = await database;
     final res = await db.delete('Scans');
 
