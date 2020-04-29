@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:qr_scanner/bloc/scan_bloc.dart';
 import 'package:qr_scanner/models/scan_model.dart';
 import 'package:qr_scanner/pages/directions.dart';
 import 'package:qr_scanner/pages/maps.dart';
 import 'package:barcode_scan/barcode_scan.dart';
+import 'package:qr_scanner/utils/utils.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -79,6 +82,12 @@ class _HomeState extends State<Home> {
       if (result.rawContent != null) {
         final scan = ScanModel(valor: result.rawContent);
         scansBloc.addScan(scan);
+
+        if (Platform.isIOS) {//Bug on IOS
+          Future.delayed(Duration(milliseconds: 750), () => openScan(scan, context));
+        } else {
+          openScan(scan, context);
+        }
       }
     } catch (e) {
       print(e);

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qr_scanner/bloc/scan_bloc.dart';
 import 'package:qr_scanner/models/scan_model.dart';
+import 'package:qr_scanner/utils/utils.dart';
 
 
 class MapsPage extends StatelessWidget {
@@ -35,6 +36,9 @@ class MapsPage extends StatelessWidget {
                 leading: Icon(Icons.cloud),
                 title: Text(snapshot.data[i].valor),
                 trailing: Icon(Icons.arrow_right),
+                onTap: (){
+                  openScan(snapshot.data[i], context);
+                },
               ),
             ),
           );
