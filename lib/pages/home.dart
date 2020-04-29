@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:qr_scanner/bloc/scan_bloc.dart';
 import 'package:qr_scanner/models/scan_model.dart';
@@ -49,7 +48,7 @@ class _HomeState extends State<Home> {
       },
       items: [
         _genBarItem(Icons.map, 'Mapas'),
-        _genBarItem(Icons.brightness_5, 'Direcciones'),
+        _genBarItem(Icons.brightness_5, "URl's"),
       ],
     );
   }
@@ -72,25 +71,25 @@ class _HomeState extends State<Home> {
   _scanQR() async {
     try {
       var result = await BarcodeScanner.scan();
-
-      print(result.type); // The result type (barcode, cancelled, failed)
-      print(result.rawContent); // The barcode content
-      print(result.format); // The barcode format (as enum)
-      print(result
-          .formatNote); // If a unknown format was scanned this field contains a note
-
-      if (result.rawContent != null) {
+      // print(result.type); // The result type (barcode, cancelled, failed)
+      // print(result.rawContent); // The barcode content
+      // print(result.format); // The barcode format (as enum)
+      // print(result
+      //     .formatNote); // If a unknown format was scanned this field contains a note
+      if (result.rawContent != null && result.type != ResultType.Cancelled) {
         final scan = ScanModel(valor: result.rawContent);
         scansBloc.addScan(scan);
 
-        if (Platform.isIOS) {//Bug on IOS
-          Future.delayed(Duration(milliseconds: 750), () => openScan(scan, context));
+        if (Platform.isIOS) {
+          //Bug on IOS
+          Future.delayed(
+              Duration(milliseconds: 750), () => openScan(scan, context));
         } else {
           openScan(scan, context);
         }
       }
     } catch (e) {
-      print(e);
+      Navigator.pushNamed(context, 'home');
     }
   }
 }

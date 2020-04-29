@@ -13,6 +13,8 @@ class MapsPage extends StatelessWidget {
   }
 
   Widget renderData() {
+
+    scansBloc.getScans(); //Force to .sink data again to build it
     return StreamBuilder<List<ScanModel>>(
       stream: scansBloc.scansStream,
       builder: (BuildContext context, AsyncSnapshot<List<ScanModel>> snapshot) {
